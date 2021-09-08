@@ -1,0 +1,37 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: apt update
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: apt dist-upgrade
+      apt:
+        upgrade: dist
+
+    - name: Install zfsutils-linux
+      apt:
+        name: zfsutils-linux
+        state: latest
+
+    - name: Install docker-compose
+      apt:
+        name: docker-compose 
+        state: latest
+
+    - name: Copy docker-compose.yml file
+      ansible.builtin.copy:
+        src: docker-compose.yml
+        dest: /home/will/docker-compose.yml
+        owner: will
+        group: will
+        mode: '0644'
+
+    - name: Add Will to the docker group
+      ansible.builtin.user:
+        name: will
+        shell: /bin/bash
+        append: yes
+        groups: docker
