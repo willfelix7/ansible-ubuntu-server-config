@@ -18,8 +18,16 @@
 
     - name: Install docker-compose
       apt:
-        name: docker-compose 
+        name: docker-compose
         state: latest
+
+    - name: Copy netplan
+      ansible.builtin.copy:
+        src: 01-netplan.yaml
+        dest: /etc/netplan/01-netplan.yaml
+        owner: root
+        group: root
+        mode: '0644'
 
     - name: Copy docker-compose.yml file
       ansible.builtin.copy:
