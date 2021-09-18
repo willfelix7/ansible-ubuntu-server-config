@@ -7,6 +7,8 @@
         name:
           - lm-sensors
           - hddtemp
+          - zfsutils-linux
+          - docker-compose
         update_cache: yes
         cache_valid_time: 3600
 
@@ -14,23 +16,13 @@
       apt:
         upgrade: dist
 
-    - name: Install zfsutils-linux
-      apt:
-        name: zfsutils-linux
-        state: latest
-
-    - name: Install docker-compose
-      apt:
-        name: docker-compose
-        state: latest
-
-    - name: Copy netplan
-      ansible.builtin.copy:
-        src: 01-netplan.yaml
-        dest: /etc/netplan/01-netplan.yaml
-        owner: root
-        group: root
-        mode: '0644'
+#    - name: Copy netplan
+#      ansible.builtin.copy:
+#        src: 01-netplan.yaml
+#        dest: /etc/netplan/01-netplan.yaml
+#        owner: root
+#        group: root
+#        mode: '0644'
 
     - name: Copy docker-compose.yml file
       ansible.builtin.copy:
