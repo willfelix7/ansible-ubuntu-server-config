@@ -4,6 +4,54 @@
   become: true
 
   tasks:
-  - name: install stuff
-    package:
-      name: tmux
+  - name: apt update
+    apt:
+      update_cache: yes
+      cache_valid_time: 3600
+    when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+  - name: apt install software
+    apt:
+      name:
+        - unattended-upgrades
+        - htop
+        - tmux
+        - vim
+        - openssh-server
+        - curl
+        - make
+        - gcc
+        - vagrant
+        - vagrant-libvirt
+        - vagrant-lxc
+        - zfsutils-linux
+        - sanoid
+      state: present
+    when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+  - name: enable unattended-upgrades from boot
+    service:
+      name: unattended-upgrades
+      state: started
+      enabled: yes
+
+  - name: add ansible user
+    user:
+      name: automate
+      system: yes
+
+  - name: set up sudo for automate user
+    copy:
+      src: files/sudoer_automate
+      dest: /etc/sudoers.d/automate
+      owner: root
+      group: root
+      mode: 0440
+
+  - name: add ansible-pull cron job
+    cron:
+      name: ansible auto-provision
+      user: automate
+      minute: "*/10"
+      job: ansible-pull -o -U git@github.com:willfelix7/ansible-ubuntu-server-config.git --key-file /home/will/.ssh/5950x_id_ed25519
+
