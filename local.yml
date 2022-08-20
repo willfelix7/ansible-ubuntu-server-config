@@ -54,5 +54,5 @@
       name: ansible auto-provision
       user: automate
       minute: "*/10"
-      job: ansible-pull -o -U git@github.com:willfelix7/ansible-ubuntu-server-config.git --key-file /home/will/.ssh/5950x_id_ed25519
+      job: ansible-pull -o -U https://github.com/willfelix7/ansible-ubuntu-server-config.git
 
