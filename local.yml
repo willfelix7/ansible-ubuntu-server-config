@@ -42,7 +42,7 @@
 
   - name: set up sudo for automate user
     copy:
-      src: files/sudoer_automate
+      src: files/sudoers_automate
       dest: /etc/sudoers.d/automate
       owner: root
       group: root
