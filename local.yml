@@ -21,6 +21,7 @@
         - curl
         - make
         - gcc
+        - libvirt-daemon-system
         - vagrant
         - vagrant-libvirt
         - vagrant-lxc
@@ -55,4 +56,12 @@
       user: automate
       minute: "*/10"
       job: ansible-pull -o -U https://github.com/willfelix7/ansible-ubuntu-server-config.git
+
+  - name: set VAGRANT_DEFAULT_PROVIDER environment variable
+    copy:
+      src: files/vagrant_env_vars.sh
+      dest: /etc/profile.d/vagrant_env_vars.sh
+      owner: root
+      group: root
+      mode: 0440
 
