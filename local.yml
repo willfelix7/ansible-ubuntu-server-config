@@ -37,6 +37,12 @@
       state: started
       enabled: yes
 
+  - name: enable libvirtd from boot
+    service:
+      name: libvirtd
+      state: started
+      enabled: yes
+
   - name: add ansible user
     user:
       name: automate
